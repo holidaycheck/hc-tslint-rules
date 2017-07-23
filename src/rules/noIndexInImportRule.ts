@@ -1,25 +1,33 @@
 import * as ts from 'typescript';
 import * as Lint from 'tslint';
+import { SyntaxKind } from 'typescript';
 
 export class Rule extends Lint.Rules.AbstractRule {
-  public static FAILURE_STRING = 'import statement forbidden';
+  public static FAILURE_STRING = 'import statements should not refer to index files';
 
   public apply(sourceFile: ts.SourceFile): Lint.RuleFailure[] {
     return this.applyWithWalker(
-      new NoImportsWalker(sourceFile, this.getOptions())
+      new NoIndexInImportWalker(sourceFile, this.getOptions())
     );
   }
 }
 
-// The walker takes care of all the work.
-class NoImportsWalker extends Lint.RuleWalker {
+class NoIndexInImportWalker extends Lint.RuleWalker {
   public visitImportDeclaration(node: ts.ImportDeclaration) {
-    // create a failure at the current position
-    this.addFailure(
-      this.createFailure(node.getStart(), node.getWidth(), Rule.FAILURE_STRING)
-    );
-
-    // call the base version of this visitor to actually parse this node
+    const importedFrom = node
+      .getChildren()
+      .find(child => child.kind === SyntaxKind.StringLiteral);
+    if (
+      importedFrom !== undefined &&
+      (importedFrom.getText().endsWith("/index'") ||
+        importedFrom.getText().endsWith('/index"'))
+    ) {
+      this.addFailureAt(
+        importedFrom.getStart(),
+        importedFrom.getWidth(),
+        Rule.FAILURE_STRING
+      );
+    }
     super.visitImportDeclaration(node);
   }
 }

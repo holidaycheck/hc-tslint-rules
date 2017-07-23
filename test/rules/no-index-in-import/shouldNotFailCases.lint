@@ -1,0 +1,4 @@
+import * as Whatever from 'whatever/index/subfolder';
+import * as Whatever from "whatever/index/subfolder";
+import * as Whatever from 'whatever/prefixedindex';
+import * as Whatever from "whatever/prefixedindex";

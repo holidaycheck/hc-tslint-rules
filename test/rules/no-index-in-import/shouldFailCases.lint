@@ -1,0 +1,8 @@
+import * as Whatever from 'whatever/index';
+                          ~~~~~~~~~~~~~~~~ [import statements should not refer to index files]
+import * as Whatever from "whatever/index";
+                          ~~~~~~~~~~~~~~~~ [import statements should not refer to index files]
+import { Whatever } from 'whatever/index';
+                         ~~~~~~~~~~~~~~~~ [import statements should not refer to index files]
+import { Whatever } from "whatever/index";
+                         ~~~~~~~~~~~~~~~~ [import statements should not refer to index files]
