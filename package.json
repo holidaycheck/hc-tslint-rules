@@ -4,13 +4,23 @@
   "description": "Handmade tslint rules for the userflow project",
   "scripts": {
     "compile": "tsc -p ./",
-    "test": "tslint --rules-dir ./build/rules --test ./test/rules/*/"
+    "test": "tslint --rules-dir ./build/rules --test ./test/rules/*/",
+    "precommit": "lint-staged"
   },
   "dependencies": {
     "tslint": "5.5.0",
     "typescript": "2.4.2"
   },
   "devDependencies": {
-    "@types/node": "8.0.15"
+    "@types/node": "8.0.15",
+    "husky": "0.14.3",
+    "lint-staged": "4.0.2",
+    "prettier": "1.5.3"
+  },
+  "lint-staged": {
+    "*.+(ts|tsx)": [
+      "prettier --single-quote --write",
+      "git add"
+    ]
   }
 }
