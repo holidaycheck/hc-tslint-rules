@@ -3,7 +3,7 @@
     "target": "es6",
     "module": "commonjs",
     "lib": ["es6"],
-    "outDir": "build",
+    "outDir": "dist",
     "rootDir": "src",
     "strict": true,
     "noImplicitAny": true,
@@ -15,7 +15,7 @@
     "noFallthroughCasesInSwitch": true
   },
   "exclude": [
-    "build",
+    "dist",
     "node_modules"
   ] 
 }
