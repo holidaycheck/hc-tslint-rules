@@ -11,3 +11,4 @@ Compile these rules (cf. [contribution guidelines](./CONTRIBUTING.md)), then cop
 # TODOs
 
 * Enable all rules in this project by default
+* Properly publish the project's artifact to a lib folder
