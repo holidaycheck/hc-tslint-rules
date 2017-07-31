@@ -6,7 +6,7 @@
     "compile": "tsc -p ./",
     "test": "tslint --rules-dir ./dist/rules --test ./test/rules/*",
     "precommit": "lint-staged",
-    "postinstall": "tsc -p ./"
+    "postinstall": "tsc"
   },
   "dependencies": {
     "tslint": "5.5.0",
@@ -19,9 +19,6 @@
     "prettier": "1.5.3"
   },
   "lint-staged": {
-    "*.+(ts|tsx)": [
-      "prettier --single-quote --write",
-      "git add"
-    ]
+    "*.+(ts|tsx)": ["prettier --single-quote --write", "git add"]
   }
 }
