@@ -10,7 +10,8 @@ They have first been used in the userflow project, but might be useful elsewhere
 where ```<token>``` is some OAuth token for authorization (people tend to use the one from claptrap ;) ) and ```<sha>```
 is the commit sha of the version that you want to include.
 * Add the rules directory to you ```tslint.json``` like
-```"rulesDirectory": ["./node_modules/uf-tslint-rules/dist/rules"]```
+```"rulesDirectory": ["./node_modules/uf-tslint-rules/dist/rules"]``` and activate the rules you need e.g. ```"no-index-in-import": true```.
+(Per default, they are switched off....)
 
 Note: The Typescript rules are compiled ```postinstall```, i.e. after you installed them in your project.
 
