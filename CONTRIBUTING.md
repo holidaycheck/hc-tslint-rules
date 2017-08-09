@@ -1,10 +1,10 @@
-#Important scripts
+# Important scripts
 * `yarn compile` compiles the rules into the `dist` folder.
 * `yarn test` runs the tests. These tests are using the test runner that comes with tslint (cf. https://palantir.github.io/tslint/develop/testing-rules/)
 
 _Important note_: Currently, running the tests does not compile the rules. You need to execute both targets consecutively yourself.
 
-#Manual testing
+# Manual testing
 If you want to try out some rules manually, e.g. on source files of other projects, use the following command:
 
 `./node_modules/tslint/bin/tslint --rules-dir ./dist/rules -c ./test/rules/no-index-in-import/tslint.json /target-dir/*`

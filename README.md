@@ -5,8 +5,14 @@ They have first been used in the userflow project, but might be useful elsewhere
 
 # Using the rules in your project
 
-Compile these rules (cf. [contribution guidelines](./CONTRIBUTING.md)), then copy the compilation output folder into some folder in your project, say folder
-`own-rules`. Then, add this folder to the `rulesDirectory` array in your `tslint.json`. In addition, you need to enable the rules that you want to use.
+* Add a dependency to your ```package.json``` like
+```"uf-tslint-rules": "git+https://<token>@github.hc.ag/userflow/uf-tslint-rules.git#<sha>"```
+where ```<token>``` is some OAuth token for authorization (people tend to use the one from claptrap ;) ) and ```<sha>```
+is the commit sha of the version that you want to include.
+* Add the rules directory to you ```tslint.json``` like
+```"rulesDirectory": ["./node_modules/uf-tslint-rules/dist/rules"]```
+
+Note: The Typescript rules are compiled ```postinstall```, i.e. after you installed them in your project.
 
 # TODOs
 
