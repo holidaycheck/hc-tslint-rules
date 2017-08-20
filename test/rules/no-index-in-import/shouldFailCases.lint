@@ -1,8 +1,10 @@
 import * as Whatever from 'whatever/index';
-                          ~~~~~~~~~~~~~~~~ [import statements should not refer to index files]
+                          ~~~~~~~~~~~~~~~~ [import statements should not explicitly refer to index files. Instead, use "import * as Whatever from 'whatever'".]
 import * as Whatever from "whatever/index";
-                          ~~~~~~~~~~~~~~~~ [import statements should not refer to index files]
+                          ~~~~~~~~~~~~~~~~ [import statements should not explicitly refer to index files. Instead, use "import * as Whatever from "whatever"".]
 import { Whatever } from 'whatever/index';
-                         ~~~~~~~~~~~~~~~~ [import statements should not refer to index files]
+                         ~~~~~~~~~~~~~~~~ [import statements should not explicitly refer to index files. Instead, use "import { Whatever } from 'whatever'".]
 import { Whatever } from "whatever/index";
-                         ~~~~~~~~~~~~~~~~ [import statements should not refer to index files]
+                         ~~~~~~~~~~~~~~~~ [import statements should not explicitly refer to index files. Instead, use "import { Whatever } from "whatever"".]
+import { Whatever } from "./index";
+                         ~~~~~~~~~ [import statements should not explicitly refer to index files. Instead, use "import { Whatever } from "."".]

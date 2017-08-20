@@ -3,7 +3,7 @@ import * as Lint from 'tslint';
 import { SyntaxKind } from 'typescript';
 
 export class Rule extends Lint.Rules.AbstractRule {
-  public static FAILURE_STRING = 'import statements should not refer to index files';
+  public static FAILURE_STRING = 'import statements should not explicitly refer to index files.';
 
   public apply(sourceFile: ts.SourceFile): Lint.RuleFailure[] {
     return this.applyWithWalker(
@@ -32,10 +32,15 @@ class NoIndexInImportWalker extends Lint.RuleWalker {
       .find(child => child.kind === SyntaxKind.StringLiteral);
 
     if (this.importEndsOnIndex(importedFrom)) {
+      const correctImport = node.getText().slice(0, node.getText().length - 8);
+      const quotes = importedFrom
+        .getText()
+        .substring(importedFrom.getText().length - 1);
+
       this.addFailureAt(
         importedFrom.getStart(),
         importedFrom.getWidth(),
-        Rule.FAILURE_STRING
+        `${Rule.FAILURE_STRING} Instead, use "${correctImport}${quotes}".`
       );
     }
     super.visitImportDeclaration(node);
