@@ -13,15 +13,25 @@ export class Rule extends Lint.Rules.AbstractRule {
 }
 
 class NoIndexInImportWalker extends Lint.RuleWalker {
+  private importEndsOnIndex(
+    importStatement: ts.Node | undefined
+  ): importStatement is ts.Node {
+    if (importStatement === undefined) {
+      return false;
+    }
+
+    return (
+      importStatement.getText().endsWith("/index'") ||
+      importStatement.getText().endsWith('/index"')
+    );
+  }
+
   public visitImportDeclaration(node: ts.ImportDeclaration) {
     const importedFrom = node
       .getChildren()
       .find(child => child.kind === SyntaxKind.StringLiteral);
-    if (
-      importedFrom !== undefined &&
-      (importedFrom.getText().endsWith("/index'") ||
-        importedFrom.getText().endsWith('/index"'))
-    ) {
+
+    if (this.importEndsOnIndex(importedFrom)) {
       this.addFailureAt(
         importedFrom.getStart(),
         importedFrom.getWidth(),
