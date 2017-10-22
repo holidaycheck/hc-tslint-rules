@@ -39,11 +39,14 @@ class NoForbiddenDependenciesWalker extends Lint.RuleWalker {
 
   public visitImportDeclaration(node: ts.ImportDeclaration) {
     this.relevantForbiddenDependencies.forEach(
-      (pathRegex: ForbiddenDependency) =>
-        this.addFailureAtNode(
-          node,
-          `Files in path matching "${pathRegex.path}" may not import from directories matching "${pathRegex.forbiddenImport}"`
-        )
+      (pathRegex: ForbiddenDependency) => {
+        if (node.getText().match(new RegExp(pathRegex.forbiddenImport))) {
+          this.addFailureAtNode(
+            node,
+            `Files in path matching "${pathRegex.path}" may not import from directories matching "${pathRegex.forbiddenImport}"`
+          );
+        }
+      }
     );
     super.visitImportDeclaration(node);
   }

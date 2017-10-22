@@ -1,0 +1,6 @@
+import * as Whatever from 'access';
+import * as Whatever from './access/subfolder';
+import * as Whatever from './folder/access.ts';
+import {namedImport} from 'access';
+import {namedImport} from './access/subfolder';
+import {namedImport} from './folder/access.ts';

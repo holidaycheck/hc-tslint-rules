@@ -3,8 +3,8 @@
     "no-forbidden-dependencies": {
       "options": [
         {
-          "path": "no-forbidden-dependencies",
-          "forbiddenImport": "dontaccess"
+          "path": "xxxxxxx",
+          "forbiddenImport": "dont-access"
         }
       ]
     }

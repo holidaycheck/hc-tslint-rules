@@ -1,0 +1,6 @@
+import * as Whatever from 'dontaccess';
+import * as Whatever from './dontaccess/subfolder';
+import * as Whatever from './folder/dontaccess.ts';
+import {namedImport} from 'dontaccess';
+import {namedImport} from './dontaccess/subfolder';
+import {namedImport} from './folder/dontaccess.ts';

@@ -1,12 +1,12 @@
 import * as Whatever from 'dontaccess';
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [Files in path matching "no-forbidden-dependencies" may not import from directories matching "dont-access"]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [Files in path matching "no-forbidden-dependencies" may not import from directories matching "dontaccess"]
 import * as Whatever from './dontaccess/subfolder';
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [Files in path matching "no-forbidden-dependencies" may not import from directories matching "dont-access"]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [Files in path matching "no-forbidden-dependencies" may not import from directories matching "dontaccess"]
 import * as Whatever from './folder/dontaccess.ts';
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [Files in path matching "no-forbidden-dependencies" may not import from directories matching "dont-access"]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [Files in path matching "no-forbidden-dependencies" may not import from directories matching "dontaccess"]
 import {namedImport} from 'dontaccess';
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [Files in path matching "no-forbidden-dependencies" may not import from directories matching "dont-access"]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [Files in path matching "no-forbidden-dependencies" may not import from directories matching "dontaccess"]
 import {namedImport} from './dontaccess/subfolder';
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [Files in path matching "no-forbidden-dependencies" may not import from directories matching "dont-access"]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [Files in path matching "no-forbidden-dependencies" may not import from directories matching "dontaccess"]
 import {namedImport} from './folder/dontaccess.ts';
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [Files in path matching "no-forbidden-dependencies" may not import from directories matching "dont-access"]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [Files in path matching "no-forbidden-dependencies" may not import from directories matching "dontaccess"]

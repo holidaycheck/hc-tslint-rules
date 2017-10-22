@@ -4,7 +4,7 @@
       "options": [
         {
           "path": "no-forbidden-dependencies",
-          "forbiddenImport": "dontaccess"
+          "forbiddenImport": "dont-access"
         }
       ]
     }
