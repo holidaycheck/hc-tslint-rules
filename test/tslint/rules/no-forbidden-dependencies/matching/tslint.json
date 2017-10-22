@@ -1,0 +1,12 @@
+{
+  "rules": {
+    "no-forbidden-dependencies": {
+      "options": [
+        {
+          "path": "no-forbidden-dependencies",
+          "forbiddenImport": "dont-access"
+        }
+      ]
+    }
+  }
+}
