@@ -15,7 +15,58 @@ is the commit sha of the version that you want to include.
 
 Note: The Typescript rules are compiled ```postinstall```, i.e. after you installed them in your project.
 
-# TODOs
+# The rules
 
-* Enable all rules in this project by default
-* Properly publish the project's artifact to a lib folder
+The rules contained in this repository can be seen by the following example `tslint.json`:
+
+```
+{
+  "rules": {
+    "no-forbidden-dependencies": {
+      "options": [
+        {
+          "path": "no-forbidden-dependencies",
+          "forbiddenImport": "dont-access"
+        }
+      ]
+    },
+    "no-index-in-import": true
+  }
+}
+```
+
+* **no-forbidden-dependencies**: This rules can be used to forbid certain dependencies in your project. If you have a folder
+`my-folder` that is not allowed to use any classes from some folder named, say, `secret-folder`, you can use this rule
+and the following configuration:
+
+```
+{
+  "rules": {
+    "no-forbidden-dependencies": {
+      "options": [
+        {
+          "path": "my-folder",
+          "forbiddenImport": "secret-folder"
+        }
+      ]
+    }
+  }
+}
+```
+
+This prevents any file whose path *matches* `my-folder` from importing any file whose path *matches* `secret-folder`.
+I.e. both file `src/my-folder/file.ts` and file `src/abc/my-folder.ts` are prevent from importing `secret-folder`. The
+same matching logic applies to the import statements, i.e. it does not matter where the string `secret-folder` is
+located in the import statement - any such import statement will be forbidden.
+
+You can also use regular expressions for `path` and `forbidden-import`. Note, however, that you need to escape certain
+characters, like backslashes. This means you cannot use `\w+`. Instead, you need to write `\\w+`.
+
+* **no-index-in-import**: This rule checks that import statements don't import from `index` files explicitly, i.e. like
+```
+import MyClass from './folder/index
+```
+Instead, the import statement should look like
+```
+import MyClass from './folder'
+```
