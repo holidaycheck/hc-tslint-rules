@@ -4,7 +4,7 @@
   "description": "Handmade tslint rules for the userflow project",
   "scripts": {
     "compile": "tsc -p ./",
-    "test": "tslint --rules-dir ./dist/rules --test ./test/rules/tslint*",
+    "test": "tslint --rules-dir ./dist/rules --test ./test/tslint/rules/*",
     "precommit": "lint-staged",
     "postinstall": "tsc"
   },
