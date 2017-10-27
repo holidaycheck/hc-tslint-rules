@@ -4,7 +4,8 @@
   "description": "Handmade tslint rules for the userflow project",
   "scripts": {
     "compile": "tsc -p ./",
-    "test": "tslint --rules-dir ./dist/rules --test `find ./test/tslint/rules -type d`",
+    "clean": "rm -r ./dist/rules",
+    "test": "yarn clean && yarn compile && tslint --rules-dir ./dist/rules --test `find ./test/tslint/rules -type d`",
     "precommit": "lint-staged",
     "postinstall": "tsc"
   },
