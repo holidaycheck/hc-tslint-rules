@@ -5,6 +5,10 @@
         {
           "path": "no-forbidden-dependencies",
           "forbiddenImport": "dont-access"
+        },
+        {
+          "path": "no-forbidden-dependencies",
+          "forbiddenImport": "import"
         }
       ]
     }

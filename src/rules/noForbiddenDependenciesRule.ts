@@ -1,6 +1,7 @@
 import * as ts from 'typescript';
 import * as Lint from 'tslint';
 import { IOptions } from 'tslint';
+import { SyntaxKind } from 'typescript';
 
 export class Rule extends Lint.Rules.AbstractRule {
   public apply(sourceFile: ts.SourceFile): Lint.RuleFailure[] {
@@ -40,7 +41,16 @@ class NoForbiddenDependenciesWalker extends Lint.RuleWalker {
   public visitImportDeclaration(node: ts.ImportDeclaration) {
     this.relevantForbiddenDependencies.forEach(
       (pathRegex: ForbiddenDependency) => {
-        if (node.getText().match(new RegExp(pathRegex.forbiddenImport))) {
+        const importedFromNode = node
+          .getChildren()
+          .find(child => child.kind === SyntaxKind.StringLiteral);
+
+        if (
+          importedFromNode &&
+          importedFromNode
+            .getText()
+            .match(new RegExp(pathRegex.forbiddenImport))
+        ) {
           this.addFailureAtNode(
             node,
             `Files in path matching "${pathRegex.path}" may not import from directories matching "${pathRegex.forbiddenImport}"`
