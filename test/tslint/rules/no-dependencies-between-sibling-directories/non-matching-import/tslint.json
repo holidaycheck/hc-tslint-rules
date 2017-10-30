@@ -1,0 +1,11 @@
+{
+  "rules": {
+    "no-dependencies-between-sibling-directories": {
+      "options": [
+        {
+          "path": "something-non-matching"
+        }
+      ]
+    }
+  }
+}

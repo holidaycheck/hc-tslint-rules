@@ -1,0 +1,8 @@
+import * as Whatever from './sibling/child-directory';
+import * as Whatever from './sibling/child-directory/index';
+import * as Whatever from './sibling/child-directory/index.ts';
+import * as Whatever from './sibling/child-directory/someFile';
+import * as Whatever from './sibling/child-directory/someFile.ts';
+import * as Whatever from 'sibling/child-directory';
+import * as Whatever from 'sibling/child-directory/someFile';
+import * as Whatever from 'sibling/child-directory/someFile.ts';

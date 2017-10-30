@@ -1,0 +1,3 @@
+import * as Whatever from '../sibling';
+import * as Whatever from '../sibling/someFile';
+import * as Whatever from '../sibling/someFile.ts';

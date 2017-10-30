@@ -1,0 +1,5 @@
+import * as Whatever from '..';
+import * as Whatever from '../index';
+import * as Whatever from '../index.ts';
+import * as Whatever from '../someFile';
+import * as Whatever from '../someFile.ts';
