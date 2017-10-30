@@ -1,7 +1,7 @@
 import * as ts from 'typescript';
 import * as Lint from 'tslint';
 import { IOptions } from 'tslint';
-import { SyntaxKind } from 'typescript';
+import { extractImportedFilename } from '../helpers/astParsing';
 
 export class Rule extends Lint.Rules.AbstractRule {
   public apply(sourceFile: ts.SourceFile): Lint.RuleFailure[] {
@@ -39,18 +39,14 @@ class NoForbiddenDependenciesWalker extends Lint.RuleWalker {
   }
 
   public visitImportDeclaration(node: ts.ImportDeclaration) {
+    const importedFilename = extractImportedFilename(node);
+    if (!importedFilename) {
+      return;
+    }
+
     this.relevantForbiddenDependencies.forEach(
       (pathRegex: ForbiddenDependency) => {
-        const importedFromNode = node
-          .getChildren()
-          .find(child => child.kind === SyntaxKind.StringLiteral);
-
-        if (
-          importedFromNode &&
-          importedFromNode
-            .getText()
-            .match(new RegExp(pathRegex.forbiddenImport))
-        ) {
+        if (importedFilename.match(new RegExp(pathRegex.forbiddenImport))) {
           this.addFailureAtNode(
             node,
             `Files in path matching "${pathRegex.path}" may not import from directories matching "${pathRegex.forbiddenImport}"`

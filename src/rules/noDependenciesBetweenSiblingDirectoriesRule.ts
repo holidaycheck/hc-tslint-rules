@@ -1,10 +1,10 @@
 import * as ts from 'typescript';
 import * as Lint from 'tslint';
 import { IOptions } from 'tslint';
-import { SyntaxKind } from 'typescript';
 import { sep } from 'path';
 
 import { asDirectory, isParentDirOrSame } from '../helpers/filesystem';
+import { extractImportedFilename } from '../helpers/astParsing';
 
 export class Rule extends Lint.Rules.AbstractRule {
   public apply(sourceFile: ts.SourceFile): Lint.RuleFailure[] {
@@ -51,17 +51,15 @@ class NoForbiddenDependenciesWalker extends Lint.RuleWalker {
   public visitImportDeclaration(node: ts.ImportDeclaration) {
     this.relevantForbiddenDependencies.forEach(
       (configuration: Configuration) => {
-        const importedFromNode = node
-          .getChildren()
-          .find(child => child.kind === SyntaxKind.StringLiteral);
-
-        if (!importedFromNode || !this.basePath) {
+        if (!this.basePath) {
           return;
         }
 
-        const importedFile = importedFromNode
-          .getText()
-          .slice(1, importedFromNode.getText().length - 1);
+        const importedFile = extractImportedFilename(node);
+        if (!importedFile) {
+          return;
+        }
+
         const isRelativeImport = importedFile.startsWith('.');
 
         if (
@@ -79,9 +77,8 @@ class NoForbiddenDependenciesWalker extends Lint.RuleWalker {
           isParentDirOrSame(this.basePath, importedPath);
 
         if (!isParent) {
-          this.addFailureAt(
-            importedFromNode.getStart(),
-            importedFromNode.getWidth(),
+          this.addFailureAtNode(
+            node,
             `Files in path matching "${configuration.path}" may not import from sibling directory as in "${importedFile}"`
           );
         }

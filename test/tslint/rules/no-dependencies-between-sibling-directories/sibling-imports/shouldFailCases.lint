@@ -1,6 +1,6 @@
 import * as Whatever from '../sibling';
-                          ~~~~~~~~~~~~  [Files in path matching "no-dependencies-between-sibling-directories" may not import from sibling directory as in "../sibling"]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  [Files in path matching "no-dependencies-between-sibling-directories" may not import from sibling directory as in "../sibling"]
 import * as Whatever from '../sibling/someFile';
-                          ~~~~~~~~~~~~~~~~~~~~~  [Files in path matching "no-dependencies-between-sibling-directories" may not import from sibling directory as in "../sibling/someFile"]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  [Files in path matching "no-dependencies-between-sibling-directories" may not import from sibling directory as in "../sibling/someFile"]
 import * as Whatever from '../sibling/someFile.ts';
-                          ~~~~~~~~~~~~~~~~~~~~~~~~  [Files in path matching "no-dependencies-between-sibling-directories" may not import from sibling directory as in "../sibling/someFile.ts"]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  [Files in path matching "no-dependencies-between-sibling-directories" may not import from sibling directory as in "../sibling/someFile.ts"]
