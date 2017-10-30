@@ -9,8 +9,8 @@ import { asDirectory, isParentDirOrSame } from '../helpers/filesystem';
 export class Rule extends Lint.Rules.AbstractRule {
   public apply(sourceFile: ts.SourceFile): Lint.RuleFailure[] {
     const options = this.getOptions().ruleArguments;
-    const relevantForbiddenDependencies: ForbiddenPath[] = options.filter(
-      (pathRegex: ForbiddenPath) =>
+    const relevantForbiddenDependencies: Configuration[] = options.filter(
+      (pathRegex: Configuration) =>
         sourceFile.fileName.match(new RegExp(pathRegex.path)) !== null
     );
 
@@ -24,18 +24,19 @@ export class Rule extends Lint.Rules.AbstractRule {
   }
 }
 
-interface ForbiddenPath {
+interface Configuration {
   path: string;
+  exceptionalImport: string;
 }
 
 class NoForbiddenDependenciesWalker extends Lint.RuleWalker {
-  private relevantForbiddenDependencies: ForbiddenPath[];
+  private relevantForbiddenDependencies: Configuration[];
   private basePath: string | undefined;
 
   constructor(
     sourceFile: ts.SourceFile,
     options: IOptions,
-    relevantForbiddenDependencies: ForbiddenPath[]
+    relevantForbiddenDependencies: Configuration[]
   ) {
     super(sourceFile, options);
     this.relevantForbiddenDependencies = relevantForbiddenDependencies;
@@ -48,37 +49,44 @@ class NoForbiddenDependenciesWalker extends Lint.RuleWalker {
   }
 
   public visitImportDeclaration(node: ts.ImportDeclaration) {
-    this.relevantForbiddenDependencies.forEach((pathRegex: ForbiddenPath) => {
-      const importedFromNode = node
-        .getChildren()
-        .find(child => child.kind === SyntaxKind.StringLiteral);
+    this.relevantForbiddenDependencies.forEach(
+      (configuration: Configuration) => {
+        const importedFromNode = node
+          .getChildren()
+          .find(child => child.kind === SyntaxKind.StringLiteral);
 
-      if (!importedFromNode || !this.basePath) {
-        return;
+        if (!importedFromNode || !this.basePath) {
+          return;
+        }
+
+        const importedFile = importedFromNode
+          .getText()
+          .slice(1, importedFromNode.getText().length - 1);
+        const isRelativeImport = importedFile.startsWith('.');
+
+        if (
+          !isRelativeImport ||
+          (configuration.exceptionalImport &&
+            importedFile.match(new RegExp(configuration.exceptionalImport)) !==
+              null)
+        ) {
+          return;
+        }
+
+        const importedPath = asDirectory(this.basePath + sep + importedFile);
+        const isParent =
+          isParentDirOrSame(importedPath, this.basePath) ||
+          isParentDirOrSame(this.basePath, importedPath);
+
+        if (!isParent) {
+          this.addFailureAt(
+            importedFromNode.getStart(),
+            importedFromNode.getWidth(),
+            `Files in path matching "${configuration.path}" may not import from sibling directory as in "${importedFile}"`
+          );
+        }
       }
-
-      const importedFile = importedFromNode
-        .getText()
-        .slice(1, importedFromNode.getText().length - 1);
-      const isRelativeImport = importedFile.startsWith('.');
-
-      if (!isRelativeImport) {
-        return;
-      }
-
-      const importedPath = asDirectory(this.basePath + sep + importedFile);
-      const isParent =
-        isParentDirOrSame(importedPath, this.basePath) ||
-        isParentDirOrSame(this.basePath, importedPath);
-
-      if (!isParent) {
-        this.addFailureAt(
-          importedFromNode.getStart(),
-          importedFromNode.getWidth(),
-          `Files in path matching "${pathRegex.path}" may not import from sibling directory as in "${importedFile}"`
-        );
-      }
-    });
+    );
     super.visitImportDeclaration(node);
   }
 }

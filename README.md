@@ -102,3 +102,25 @@ The following is an example configuration:
   }
 }
 ```
+
+It is possible to define *exceptions* to the rule. E.g., you might want to ban sibling imports, but there is a directory
+called `shared` that each other directories should be allowed to import from, even sibling directories. Then, you could
+define this exception like
+
+```
+{
+  "rules": {
+    "no-dependencies-between-sibling-directories": {
+      "options": [
+        {
+          "path": "my-folder",
+          "exceptionalImport": "shared"
+        }
+      ]
+    }
+  }
+}
+```
+
+Whenever `shared` matches (as a RegExp) the imported file path, the rule will *not* forbid the import (even if the 
+import refers to a sibling directory).

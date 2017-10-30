@@ -1,0 +1,12 @@
+{
+  "rules": {
+    "no-dependencies-between-sibling-directories": {
+      "options": [
+        {
+          "path": "no-dependencies-between-sibling-directories",
+          "exceptionalImport": "sibling"
+        }
+      ]
+    }
+  }
+}
