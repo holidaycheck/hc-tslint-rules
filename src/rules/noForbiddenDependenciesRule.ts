@@ -2,37 +2,39 @@ import * as ts from 'typescript';
 import * as Lint from 'tslint';
 import { IOptions } from 'tslint';
 import { extractImportedFilename } from '../helpers/astParsing';
+import {
+  PathConfiguration,
+  RuleForSpecificPaths
+} from './generic/RuleForSpecificPaths';
 
-export class Rule extends Lint.Rules.AbstractRule {
-  public apply(sourceFile: ts.SourceFile): Lint.RuleFailure[] {
-    const options = this.getOptions().ruleArguments;
-    const relevantForbiddenDependencies: ForbiddenDependency[] = options.filter(
-      (pathRegex: ForbiddenDependency) =>
-        sourceFile.fileName.match(new RegExp(pathRegex.path)) !== null
-    );
-
-    return this.applyWithWalker(
-      new NoForbiddenDependenciesWalker(
-        sourceFile,
-        this.getOptions(),
-        relevantForbiddenDependencies
-      )
+export class Rule extends RuleForSpecificPaths<
+  Configuration,
+  NoForbiddenDependenciesWalker
+> {
+  protected newWalker(
+    sourceFile: ts.SourceFile,
+    options: IOptions,
+    relevantConfigurations: Configuration[]
+  ): NoForbiddenDependenciesWalker {
+    return new NoForbiddenDependenciesWalker(
+      sourceFile,
+      options,
+      relevantConfigurations
     );
   }
 }
 
-interface ForbiddenDependency {
-  path: string;
+interface Configuration extends PathConfiguration {
   forbiddenImport: string;
 }
 
 class NoForbiddenDependenciesWalker extends Lint.RuleWalker {
-  private relevantForbiddenDependencies: ForbiddenDependency[];
+  private relevantForbiddenDependencies: Configuration[];
 
   constructor(
     sourceFile: ts.SourceFile,
     options: IOptions,
-    relevantForbiddenDependencies: ForbiddenDependency[]
+    relevantForbiddenDependencies: Configuration[]
   ) {
     super(sourceFile, options);
     this.relevantForbiddenDependencies = relevantForbiddenDependencies;
@@ -44,16 +46,14 @@ class NoForbiddenDependenciesWalker extends Lint.RuleWalker {
       return;
     }
 
-    this.relevantForbiddenDependencies.forEach(
-      (pathRegex: ForbiddenDependency) => {
-        if (importedFilename.match(new RegExp(pathRegex.forbiddenImport))) {
-          this.addFailureAtNode(
-            node,
-            `Files in path matching "${pathRegex.path}" may not import from directories matching "${pathRegex.forbiddenImport}"`
-          );
-        }
+    this.relevantForbiddenDependencies.forEach((pathRegex: Configuration) => {
+      if (importedFilename.match(new RegExp(pathRegex.forbiddenImport))) {
+        this.addFailureAtNode(
+          node,
+          `Files in path matching "${pathRegex.path}" may not import from directories matching "${pathRegex.forbiddenImport}"`
+        );
       }
-    );
+    });
     super.visitImportDeclaration(node);
   }
 }

@@ -5,31 +5,33 @@ import { sep } from 'path';
 
 import { asDirectory, isParentDirOrSame } from '../helpers/filesystem';
 import { extractImportedFilename } from '../helpers/astParsing';
+import {
+  PathConfiguration,
+  RuleForSpecificPaths
+} from './generic/RuleForSpecificPaths';
 
-export class Rule extends Lint.Rules.AbstractRule {
-  public apply(sourceFile: ts.SourceFile): Lint.RuleFailure[] {
-    const options = this.getOptions().ruleArguments;
-    const relevantForbiddenDependencies: Configuration[] = options.filter(
-      (pathRegex: Configuration) =>
-        sourceFile.fileName.match(new RegExp(pathRegex.path)) !== null
-    );
-
-    return this.applyWithWalker(
-      new NoForbiddenDependenciesWalker(
-        sourceFile,
-        this.getOptions(),
-        relevantForbiddenDependencies
-      )
+export class Rule extends RuleForSpecificPaths<
+  Configuration,
+  NoSiblingDependenciesWalker
+> {
+  protected newWalker(
+    sourceFile: ts.SourceFile,
+    options: IOptions,
+    relevantConfigurations: Configuration[]
+  ): NoSiblingDependenciesWalker {
+    return new NoSiblingDependenciesWalker(
+      sourceFile,
+      options,
+      relevantConfigurations
     );
   }
 }
 
-interface Configuration {
-  path: string;
+interface Configuration extends PathConfiguration {
   exceptionalImport: string;
 }
 
-class NoForbiddenDependenciesWalker extends Lint.RuleWalker {
+class NoSiblingDependenciesWalker extends Lint.RuleWalker {
   private relevantForbiddenDependencies: Configuration[];
   private basePath: string | undefined;
 
