@@ -19,6 +19,10 @@ export abstract class RuleForSpecificPaths<
         sourceFile.fileName.match(new RegExp(pathRegex.path)) !== null
     );
 
+    if (relevantConfigurations.length === 0) {
+      return [];
+    }
+
     return this.applyWithWalker(
       this.newWalker(sourceFile, this.getOptions(), relevantConfigurations)
     );
