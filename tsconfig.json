@@ -6,6 +6,7 @@
     "outDir": "dist",
     "rootDir": "src",
     "strict": true,
+    "strictFunctionTypes": false,
     "noImplicitAny": true,
     "strictNullChecks": true,
     "noImplicitThis": true,
