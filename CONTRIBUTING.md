@@ -1,6 +1,6 @@
 # Important scripts
 * `yarn compile` compiles the rules into the `dist` folder.
-* `yarn test` runs the tests. These tests are using the test runner that comes with tslint (cf. https://palantir.github.io/tslint/develop/testing-rules/)
+* `yarn test` runs the tests. These tests are using the test runner that comes with tslint (cf. [documentation](https://palantir.github.io/tslint/develop/testing-rules/))
 
 # Manual testing
 If you want to try out some rules manually, e.g. on source files of other projects, use the following command:

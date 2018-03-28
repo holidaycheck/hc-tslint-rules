@@ -1,7 +1,7 @@
 {
-  "name": "uf-tslint-rules",
+  "name": "hc-tslint-rules",
   "version": "0.0.1",
-  "description": "Handmade tslint rules for the userflow project",
+  "description": "A couple of handmade tslint rules",
   "scripts": {
     "compile": "tsc -p ./",
     "clean": "rm -rf ./dist/rules",

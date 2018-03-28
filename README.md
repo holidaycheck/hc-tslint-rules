@@ -1,19 +1,17 @@
-# Linting rules for the userflow
+# Useful linting rules
 
-This repo contains some additional linting rules that turned out to be useful.
-They have first been used in the userflow project, but might be useful elsewhere.
+This repo contains some linting rules that we found useful in addition to the standard [tslint rules](https://palantir.github.io/tslint/rules/).
 
 # Using the rules in your project
 
 * Add a dependency to your ```package.json``` like
-```"uf-tslint-rules": "git+https://<token>@github.hc.ag/userflow/uf-tslint-rules.git#<sha>"```
-where ```<token>``` is some OAuth token for authorization (people tend to use the one from claptrap ;) ) and ```<sha>```
-is the commit sha of the version that you want to include.
-* Add the rules directory to you ```tslint.json``` like
-```"rulesDirectory": ["./node_modules/uf-tslint-rules/dist/rules"]``` and activate the rules you need e.g. ```"no-index-in-import": true```.
-(Per default, they are switched off....)
+```"hc-tslint-rules": "git+https://github.com/holidaycheck/tslint-rules.git#<sha>"```
+where ```<sha>``` is the commit sha of the version that you want to include.
+* Add the rules directory to your ```tslint.json``` like
+```"rulesDirectory": ["./node_modules/hc-tslint-rules/dist/rules"]``` and activate the rules you need e.g. ```"no-index-in-import": true```.
+(By default, they are switched off....)
 
-Note: The Typescript rules are compiled ```postinstall```, i.e. after you installed them in your project.
+Note: Since this project is not published on npm, the typescript rules are compiled ```postinstall```, i.e. after you installed them in your project.
 
 # The rules
 
